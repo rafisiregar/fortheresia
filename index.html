@@ -17,7 +17,6 @@
       --soft:#f4fbff;
     }
 
-    /* Stitch-ish playful aesthetic */
     body{
       margin:0;
       padding:20px;
@@ -27,7 +26,6 @@
       align-items:center;
       font-family:"Courier New", Courier, monospace;
       color:var(--ink);
-
       background:
         radial-gradient(circle at 20px 20px, rgba(30,136,229,0.22) 2px, transparent 2px),
         radial-gradient(circle at 10px 10px, rgba(255,79,163,0.18) 1px, transparent 1px),
@@ -35,7 +33,6 @@
       background-size: 22px 22px, 26px 26px, cover;
     }
 
-    /* Cute stitch border utility */
     .stitch-border{
       border:3px solid var(--stitch2);
       outline:3px dashed rgba(30,136,229,0.55);
@@ -43,7 +40,6 @@
       border-radius:14px;
     }
 
-    /* Interactive progress (stepper bar) */
     #progress-wrap{
       width:100%;
       max-width:720px;
@@ -125,21 +121,21 @@
       100%{ transform:translateX(20%); }
     }
 
+    /* Steps are now NON-CLICKABLE (indicator only) */
     .steps{
       margin-top:10px;
       display:grid;
       grid-template-columns:repeat(4, 1fr);
       gap:10px;
+      pointer-events:none; /* prevents click/tap */
     }
 
     .step{
       user-select:none;
-      cursor:pointer;
       padding:10px 10px;
       border-radius:14px;
       background:rgba(255,255,255,0.7);
       border:2px solid rgba(13,71,161,0.25);
-      transition:transform .15s ease, background .15s ease, border-color .15s ease;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -147,11 +143,6 @@
       font-weight:bold;
       font-size:12px;
       text-align:center;
-    }
-    .step:hover{
-      transform:translateY(-2px);
-      border-color:rgba(30,136,229,0.55);
-      background:rgba(255,255,255,0.9);
     }
     .step.active{
       border-color:rgba(30,136,229,0.95);
@@ -178,7 +169,6 @@
       border-radius:18px;
       margin-bottom:22px;
     }
-
     header .inner{
       display:flex;
       flex-direction:column;
@@ -186,7 +176,6 @@
       gap:6px;
       padding:12px 18px;
     }
-
     h1{
       margin:0;
       font-size:26px;
@@ -194,7 +183,6 @@
       color:var(--stitch2);
       text-shadow:1px 1px 0 rgba(255,255,255,0.9);
     }
-
     .sub{
       font-size:12px;
       margin:0;
@@ -237,7 +225,6 @@
       gap:18px;
       margin-top:10px;
     }
-
     .photo-card{
       width:100%;
       max-width:300px;
@@ -250,16 +237,6 @@
       position:relative;
       overflow:hidden;
     }
-    .photo-card::before{
-      content:"";
-      position:absolute;
-      inset:-40px -40px auto auto;
-      width:120px;
-      height:120px;
-      background:rgba(255,79,163,0.15);
-      border-radius:50%;
-      filter:blur(0px);
-    }
     .photo-card img{
       width:100%;
       height:auto;
@@ -267,11 +244,7 @@
       border:2px solid rgba(21,50,77,0.12);
       background:#eaf7ff;
     }
-    .caption{
-      margin:10px 4px 4px;
-      font-style:italic;
-      font-size:12px;
-    }
+    .caption{ margin:10px 4px 4px; font-style:italic; font-size:12px; }
 
     .nav-btn{
       margin-top:18px;
@@ -288,12 +261,8 @@
       box-shadow:0 10px 22px rgba(255,79,163,0.25);
       transition:transform .12s ease, filter .12s ease;
     }
-    .nav-btn:hover{
-      transform:translateY(-2px);
-      filter:saturate(1.1);
-    }
+    .nav-btn:hover{ transform:translateY(-2px); filter:saturate(1.1); }
 
-    /* Quiz */
     #quiz-question{ margin:10px 0 6px; font-weight:bold; }
     .quiz-option{
       display:block;
@@ -314,7 +283,6 @@
       border-color:rgba(30,136,229,0.65);
     }
 
-    /* Letter */
     .letter{
       line-height:1.7;
       white-space:pre-wrap;
@@ -328,7 +296,6 @@
       font-size:0.95em;
     }
 
-    /* Finale buttons */
     .final-row{
       display:flex;
       justify-content:center;
@@ -345,7 +312,9 @@
       cursor:pointer;
       border-radius:16px;
       box-shadow:0 12px 22px rgba(0,214,107,0.2);
-      transition:0.1s;
+      transition:0.12s ease;
+      transform-origin:center;
+      font-size:18px;
     }
     #noBtn{
       background:linear-gradient(90deg, #ff4b4b, #ff7676);
@@ -353,8 +322,9 @@
       border:3px solid rgba(21,50,77,0.55);
       padding:14px 26px;
       border-radius:16px;
-      cursor:not-allowed;
+      cursor:pointer; /* now clickable to trigger grow on mobile */
       box-shadow:0 12px 22px rgba(255,75,75,0.18);
+      font-weight:bold;
     }
 
     #celebration{
@@ -382,16 +352,12 @@
       box-shadow:0 18px 40px var(--shadow);
     }
 
-    .tiny{
-      font-size:12px;
-      opacity:0.85;
-    }
+    .tiny{ font-size:12px; opacity:0.85; }
   </style>
 </head>
 
 <body>
 
-  <!-- Interactive Progress -->
   <div id="progress-wrap" class="stitch-border">
     <div class="progress-head">
       <div class="badge"><span class="pulse"></span><span id="statusText">Unlocked: Memories</span></div>
@@ -402,11 +368,12 @@
       <div id="fill"></div>
     </div>
 
-    <div class="steps" aria-label="Navigation steps">
-      <div class="step active" data-step="1" onclick="goTo(1)"><span class="dot"></span><span>Memories</span></div>
-      <div class="step" data-step="2" onclick="goTo(2)"><span class="dot"></span><span>Love Test</span></div>
-      <div class="step" data-step="3" onclick="goTo(3)"><span class="dot"></span><span>Letter</span></div>
-      <div class="step" data-step="4" onclick="goTo(4)"><span class="dot"></span><span>The Question</span></div>
+    <!-- indicator only, no click -->
+    <div class="steps" aria-label="Progress indicator">
+      <div class="step active" data-step="1"><span class="dot"></span><span>Memories</span></div>
+      <div class="step" data-step="2"><span class="dot"></span><span>Love Test</span></div>
+      <div class="step" data-step="3"><span class="dot"></span><span>Letter</span></div>
+      <div class="step" data-step="4"><span class="dot"></span><span>The Question</span></div>
     </div>
   </div>
 
@@ -417,7 +384,6 @@
     </div>
   </header>
 
-  <!-- Section 1 -->
   <div class="section active stitch-border" id="sec1">
     <h2 class="title">Our Memories</h2>
     <div class="moments-grid">
@@ -433,7 +399,6 @@
     <button class="nav-btn" onclick="goTo(2)">Open the next page →</button>
   </div>
 
-  <!-- Section 2 -->
   <div class="section stitch-border" id="sec2">
     <h2 class="title">The Love Test</h2>
     <p id="quiz-question">Siapa orang paling cantik di dunia menurut aku?</p>
@@ -445,7 +410,6 @@
     <button class="nav-btn" id="quiz-next" style="display:none;" onclick="goTo(3)">Read my Letter →</button>
   </div>
 
-  <!-- Section 3 -->
   <div class="section stitch-border" id="sec3">
     <h2 class="title">For Your Eyes Only</h2>
     <div class="letter">
@@ -463,19 +427,21 @@ I have one last question for you...
     <button class="nav-btn" onclick="goTo(4)">The Big Question →</button>
   </div>
 
-  <!-- Section 4 -->
   <div class="section stitch-border" id="sec4" style="text-align:center;">
     <h2 class="title">One last thing</h2>
-    <h1 style="font-size:2.4em; margin:10px 0 6px; color:var(--stitch2);">MAU NYONG?</h1>
+    <h1 style="font-size:2.6em; margin:10px 0 6px; color:var(--stitch2);">MAU NYONG?</h1>
     <p style="margin:0; opacity:0.9;">(Will you be my Valentine?)</p>
 
     <div class="final-row">
       <button id="yesBtn" onclick="showCelebration()">YES!</button>
-      <button id="noBtn" onmouseover="growYes()">NO</button>
+
+      <!-- CHANGED: click/tap triggers grow -->
+      <button id="noBtn" onclick="growYes()">NO</button>
     </div>
+
+    <p class="tiny" style="margin-top:14px;">Hint: try pressing “NO” 😇</p>
   </div>
 
-  <!-- Celebration -->
   <div id="celebration">
     <div class="cele-card stitch-border">
       <h1 style="margin:0 0 10px; font-size:2.2em; color:var(--pink);">YAY! HAPPY VALENTINE! 💗</h1>
@@ -502,13 +468,14 @@ I have one last question for you...
       document.querySelectorAll(".step").forEach(btn => {
         btn.classList.toggle("active", Number(btn.dataset.step) === secNum);
       });
+
       const pct = secNum * 25;
       document.getElementById("fill").style.width = pct + "%";
       document.getElementById("percentText").innerText = pct + "%";
       document.getElementById("statusText").innerText = labels[secNum] || "Unlocked";
     }
 
-    function goTo(secNum) {
+    function goTo(secNum){
       document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       document.getElementById("sec" + secNum).classList.add("active");
       setActiveStep(secNum);
@@ -516,7 +483,7 @@ I have one last question for you...
     }
 
     let quizStep = 0;
-    function nextQuiz() {
+    function nextQuiz(){
       const q = document.getElementById("quiz-question");
       if (quizStep === 0) {
         q.innerText = "Seberapa sayang aku sama kamu?";
@@ -528,11 +495,16 @@ I have one last question for you...
       }
     }
 
+    // CHANGED: growth happens on click/tap of NO
     let yesSize = 18;
-    function growYes() {
+    function growYes(){
       yesSize += 42;
       const yes = document.getElementById("yesBtn");
       yes.style.fontSize = yesSize + "px";
+
+      // tiny bounce feedback
+      yes.style.transform = "scale(1.04)";
+      setTimeout(() => { yes.style.transform = "scale(1)"; }, 120);
 
       if (yesSize > 240) {
         yes.style.position = "fixed";
@@ -544,12 +516,12 @@ I have one last question for you...
       }
     }
 
-    function showCelebration() {
+    function showCelebration(){
       document.getElementById("celebration").style.display = "flex";
     }
 
-    // initial sync
     setActiveStep(1);
   </script>
+
 </body>
 </html>
