@@ -98,7 +98,6 @@
       overflow:hidden;
     }
 
-    /* cute stitch outline */
     .envelope::before{
       content:"";
       position:absolute;
@@ -156,7 +155,6 @@
       transform: translate(-50%, -50%) scale(0.9);
     }
 
-    /* little stitch icons inside envelope */
     .envelope-decor{
       position:absolute;
       inset:0;
@@ -525,7 +523,7 @@
 
         <div class="envelope-heart" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" clip-rule="evenodd" />
           </svg>
         </div>
 
@@ -580,16 +578,17 @@
     <button class="nav-btn" onclick="goTo(2)">Don't you wanna know the rest? →</button>
   </div>
 
+  <!-- QUIZ SECTION (REVISED - 2 REAL QUESTIONS) -->
   <div class="section stitch-border" id="sec2">
     <h2 class="title">The Love Test</h2>
-    <p id="quiz-question">Siapa orang paling cantik di dunia menurut Rafi?</p>
-    <div id="quiz-options">
-      <button class="quiz-option" onclick="nextQuiz()">A. There</button>
-      <button class="quiz-option" onclick="nextQuiz()">B. Theresia</button>
-      <button class="quiz-option" onclick="nextQuiz()">C. There G(endut)</button>
-      <button class="quiz-option" onclick="nextQuiz()">D. There BATAK?</button>
-    </div>
-    <button class="nav-btn" id="quiz-next" style="display:none;" onclick="goTo(3)">Read my Letter →</button>
+
+    <p id="quiz-question"></p>
+
+    <div id="quiz-options"></div>
+
+    <button class="nav-btn" id="quiz-next" style="display:none;" onclick="goTo(3)">
+      Read my Letter →
+    </button>
   </div>
 
   <div class="section stitch-border" id="sec3">
@@ -717,24 +716,88 @@ I have one last question for you...
       document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       document.getElementById("sec" + secNum).classList.add("active");
 
+      // start quiz fresh when entering section 2
+      if (secNum === 2) startQuiz();
+
       setActiveStep(secNum);
       window.scrollTo(0, 0);
     }
 
     /* ==============================
-       QUIZ
+       QUIZ (REVISED - 2 REAL QUESTIONS)
        ============================== */
     let quizStep = 0;
-    function nextQuiz(){
-      const q = document.getElementById("quiz-question");
-      if (quizStep === 0) {
-        q.innerText = "Seberapa sayang aku sama kamu?";
-        quizStep++;
-      } else {
-        q.innerHTML = "<b>SKOR: 100/100!</b><br>Kamu memang juara di hati aku. 💙";
-        document.getElementById("quiz-options").style.display = "none";
-        document.getElementById("quiz-next").style.display = "block";
+
+    const quizData = [
+      {
+        q: "Siapa orang paling cantik di dunia menurut Rafi?",
+        options: ["There", "Theresia", "There G(endut)", "There BATAK?"],
+        correctIndex: 1, // B
+        wrongMsg: "Salah 😗 coba lagi ya.",
+        correctMsg: "Nah… itu dia 😌💙"
+      },
+      {
+        q: "Seberapa sayang aku sama kamu?",
+        options: ["Sayang", "Sayang banget", "Sayang pol, gak ngotak 😤💗", "Rahasia (tapi gede)"],
+        correctIndex: 2, // C
+        wrongMsg: "Kurang nendang. Pilih yang paling lebay 😈",
+        correctMsg: "Wkwk YES. Kamu paham aku 😭💙"
       }
+    ];
+
+    function renderQuizStep(){
+      const qEl = document.getElementById("quiz-question");
+      const optEl = document.getElementById("quiz-options");
+
+      const step = quizData[quizStep];
+      qEl.innerText = step.q;
+
+      optEl.innerHTML = "";
+      step.options.forEach((text, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "quiz-option";
+        btn.type = "button";
+        btn.textContent = `${String.fromCharCode(65 + idx)}. ${text}`;
+        btn.onclick = () => answerQuiz(idx);
+        optEl.appendChild(btn);
+      });
+    }
+
+    function answerQuiz(selectedIndex){
+      const qEl = document.getElementById("quiz-question");
+      const optEl = document.getElementById("quiz-options");
+      const nextBtn = document.getElementById("quiz-next");
+
+      const step = quizData[quizStep];
+
+      if (selectedIndex !== step.correctIndex) {
+        qEl.innerText = step.wrongMsg + "  " + step.q;
+        return;
+      }
+
+      qEl.innerText = step.correctMsg;
+
+      if (quizStep < quizData.length - 1) {
+        quizStep++;
+        setTimeout(() => {
+          renderQuizStep();
+        }, 650);
+        return;
+      }
+
+      qEl.innerHTML = "<b>SKOR: 100/100!</b><br>Kamu memang juara di hati aku. 💙";
+      optEl.style.display = "none";
+      nextBtn.style.display = "block";
+    }
+
+    function startQuiz(){
+      const optEl = document.getElementById("quiz-options");
+      const nextBtn = document.getElementById("quiz-next");
+
+      quizStep = 0;
+      optEl.style.display = "block";
+      nextBtn.style.display = "none";
+      renderQuizStep();
     }
 
     /* ==============================
