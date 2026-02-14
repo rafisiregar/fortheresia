@@ -3,297 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALOHA GABY 🌺</title>
+    <title>GABY + STITCH = ❤️</title>
     <style>
         :root {
             --stitch-blue: #4facfe;
-            --stitch-dark: #003366;
-            --hibiscus-pink: #ff576c;
-            --glitch-green: #00ff41;
+            --angel-pink: #ff9a9e;
+            --tape-color: rgba(255, 255, 255, 0.5);
         }
 
         body {
-            background-color: #e0f7fa;
-            /* Retro tropical pattern background */
-            background-image: radial-gradient(var(--stitch-blue) 0.5px, transparent 0.5px);
-            background-size: 30px 30px;
-            font-family: "Courier New", Courier, monospace;
-            color: var(--stitch-dark);
+            background-color: #ffdae9;
+            /* Scrapbook paper texture */
+            background-image: radial-gradient(#4facfe 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            font-family: "Comic Sans MS", "Chalkboard SE", cursive;
+            color: #2c3e50;
             margin: 0;
             padding: 20px;
             overflow-x: hidden;
         }
 
-        /* Glitchy Progress Bar */
-        #system-status {
-            width: 100%;
-            max-width: 500px;
-            background: #fff;
-            border: 3px solid var(--stitch-dark);
-            margin: 20px auto;
-            position: relative;
-            height: 30px;
-            box-shadow: 4px 4px 0px var(--hibiscus-pink);
-        }
-
-        #progress-bar {
-            width: 20%;
-            height: 100%;
-            background: var(--stitch-blue);
-            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Glitch Animation for Progress Bar */
-        #progress-bar::after {
-            content: "SYSTEM_ERROR";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            background: var(--glitch-green);
-            color: black;
-            opacity: 0;
-            animation: glitch-flash 3s infinite;
-        }
-
-        @keyframes glitch-flash {
-            0%, 90% { opacity: 0; }
-            92% { opacity: 1; transform: skewX(20deg); }
-            95% { opacity: 0; }
-        }
-
-        header {
-            text-align: center;
-            background: white;
-            border: 3px solid var(--stitch-dark);
-            padding: 15px;
-            transform: rotate(-1deg);
-            box-shadow: 8px 8px 0px var(--stitch-blue);
-            margin-bottom: 50px;
-        }
-
-        .section {
-            display: none;
-            background: white;
-            border: 3px solid var(--stitch-dark);
-            padding: 30px;
+        /* SURFING STITCH PROGRESS BAR */
+        #progress-container {
             width: 90%;
             max-width: 500px;
-            margin: 0 auto 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.4);
+            border: 3px dashed var(--stitch-blue);
+            margin: 20px auto;
             position: relative;
-            box-shadow: 12px 12px 0px var(--stitch-dark);
-            animation: slideIn 0.4s ease-out;
+            border-radius: 50px;
         }
 
-        .section.active { display: block; }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Stitch Theme Elements */
-        .hibiscus {
+        #surf-stitch {
             position: absolute;
-            font-size: 40px;
+            left: 0%;
             top: -25px;
-            right: -20px;
-            filter: drop-shadow(2px 2px 0px var(--stitch-dark));
+            font-size: 40px;
+            transition: left 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 10;
         }
 
-        /* Moments Photo Grid */
-        .photo-frame {
-            border: 10px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        #progress-fill {
+            width: 25%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--stitch-blue), var(--angel-pink));
+            border-radius: 50px;
+            transition: width 0.8s ease;
+        }
+
+        /* SCRAPBOOK SECTIONS */
+        .section {
+            display: none;
             background: #fff;
-            margin-bottom: 20px;
-            transform: rotate(-2deg);
+            border: 1px solid #ddd;
+            padding: 40px 20px;
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            background-image: linear-gradient(#f1f1f1 1px, transparent 1px);
+            background-size: 100% 1.5em; /* Lined paper feel */
         }
-        .photo-frame img { width: 100%; display: block; filter: sepia(0.3); }
 
-        /* Navigation Buttons */
-        .aloha-btn {
-            background: var(--hibiscus-pink);
+        .section.active { display: block; transform: rotate(var(--r)); }
+
+        /* TAPE EFFECT */
+        .section::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background: var(--tape-color);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* STITCH IMAGES DECORATION */
+        .stitch-deco {
+            position: absolute;
+            width: 80px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* PHOTO SCRAPBOOK STYLE */
+        .photo-wrap {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            transform: rotate(-3deg);
+            margin-bottom: 20px;
+        }
+        .photo-wrap img { width: 100%; height: auto; display: block; }
+
+        .note {
+            background: #fff59d;
+            padding: 10px;
+            font-size: 14px;
+            transform: rotate(2deg);
+            border-radius: 2px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            margin: 15px 0;
+            border-left: 5px solid #fbc02d;
+        }
+
+        /* BUTTONS */
+        .btn-next {
+            background: var(--stitch-blue);
             color: white;
-            border: 3px solid var(--stitch-dark);
-            padding: 15px;
-            width: 100%;
-            font-family: inherit;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 20px;
-            transition: 0.2s;
-        }
-        .aloha-btn:hover {
-            background: var(--stitch-blue);
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0px var(--stitch-dark);
-        }
-
-        /* Quiz Choices */
-        .experiment-choice {
-            display: block;
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 2px solid var(--stitch-dark);
-            background: #e0f7fa;
-            cursor: pointer;
-            font-family: inherit;
+            margin-top: 20px;
+            box-shadow: 0 4px 0 #0077be;
         }
+        .btn-next:active { transform: translateY(4px); box-shadow: none; }
 
-        /* The BIG "Yes" logic */
-        #yesBtn {
-            background: #00ff41;
-            font-size: 20px;
-            padding: 20px 40px;
-            border: 4px solid var(--stitch-dark);
-            cursor: pointer;
-        }
-        #noBtn {
-            background: #ff576c;
-            padding: 20px 40px;
-            border: 4px solid var(--stitch-dark);
-            color: white;
-        }
+        /* YES/NO GAME */
+        #yesBtn { background: #4caf50; font-size: 20px; padding: 15px 30px; border-radius: 10px; color: white; border: none; cursor: pointer; }
+        #noBtn { background: #f44336; font-size: 20px; padding: 15px 30px; border-radius: 10px; color: white; border: none; cursor: pointer; }
 
-        /* Celebration Screen */
-        #ohana-screen {
+        /* FINAL SCREEN */
+        #celebration {
             display: none;
             position: fixed;
             inset: 0;
-            background: var(--stitch-blue);
-            z-index: 9999;
+            background: white;
+            z-index: 1000;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            text-shadow: 3px 3px 0px var(--stitch-dark);
+            text-align: center;
+            background: radial-gradient(circle, #fff, var(--angel-pink));
         }
     </style>
 </head>
 <body>
 
-    <div id="system-status">
-        <div id="progress-bar">EXPERIMENT_626_LOADING</div>
+    <div id="progress-container">
+        <div id="surf-stitch">🏄‍♂️</div>
+        <div id="progress-fill"></div>
     </div>
 
-    <header>
-        <h1 id="main-title">STITCH.EXE ACTIVATED</h1>
-        <p>User: Gaby | Status: Most Wanted ❤️</p>
-    </header>
-
-    <div class="section active" id="sec1">
-        <span class="hibiscus">🌺</span>
-        <div class="photo-frame">
-            <img src="images/us1.jpg" alt="Moment 1">
-        </div>
-        <p style="text-align: center; border: 1px dashed #333; padding: 10px;">
-            "Ohana means family. Family means nobody gets left behind or forgotten." 
+    <div class="section active" id="sec1" style="--r: -1deg;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/X8uMu868798C0A9f5x/giphy.gif" class="stitch-deco" style="top:-30px; right:-20px; width:100px;">
+        
+        <h2 style="text-align: center; color: var(--stitch-blue);">Our Galaxy 🌌</h2>
+        
+        <div class="photo-wrap">
+            <img src="images/photo1.jpg" alt="Us"> </div>
+        
+        <div class="note">
+            "Ohana means family... and family means nobody gets left behind."
             <br><br>
-            <strong>Especially you.</strong>
+            I promise I'll never leave you behind, Gaby. Not even for a galaxy full of space-junk!
+        </div>
+
+        <button class="btn-next" onclick="next(2)">Travel to Next Planet 🚀</button>
+    </div>
+
+    <div class="section" id="sec2" style="--r: 2deg;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Lp9itb1Nq5b7V98e6Y/giphy.gif" class="stitch-deco" style="bottom:-20px; left:-20px; width:120px;">
+        
+        <h2 style="color: var(--angel-pink);">The Love-O-Meter</h2>
+        <p>If Stitch found 100 coconuts, how many would he give to Gaby?</p>
+        
+        <button class="btn-next" style="background:var(--angel-pink)" onclick="alert('Correct! He loves you more than food!')">A. All of them!</button>
+        <button class="btn-next" style="background:var(--angel-pink)" onclick="alert('Incorrect! He would steal more coconuts just to give you 200!')">B. Only half.</button>
+
+        <div id="quiz-win" style="display:none; margin-top: 20px;">
+             <div class="note">System Scan: Gaby is 1000% more adorable than Experiment 626.</div>
+             <button class="btn-next" onclick="next(3)">Read the Secret Message 💌</button>
+        </div>
+        <script>
+            // Simple logic to show next button after any click
+            document.querySelectorAll('#sec2 .btn-next').forEach(b => b.addEventListener('click', () => {
+                document.getElementById('quiz-win').style.display = 'block';
+            }));
+        </script>
+    </div>
+
+    <div class="section" id="sec3" style="--r: -2deg;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNoZGN6dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/T3V7v5C3N2E9fXFpXp/giphy.gif" class="stitch-deco" style="top:-40px; left:50%; transform:translateX(-50%); width:100px;">
+        
+        <h2 style="text-align:center;">Dear Gaby...</h2>
+        <p>
+            You’re like my favorite song on a glitchy radio—I’d listen to you all day even if the world was ending. 
+            <br><br>
+            Being with you is the best adventure I've ever had. No space-ship required. You're my home.
         </p>
-        <button class="aloha-btn" onclick="next(2)">Initiate Memory Scan →</button>
-    </div>
-
-    <div class="section" id="sec2">
-        <span class="hibiscus">🌸</span>
-        <p style="font-weight: bold; margin-bottom: 20px;">SYSTEM CHECK: Who is the cutest experiment in this galaxy?</p>
-        <div id="quiz-options">
-            <button class="experiment-choice" onclick="solveQuiz()">A. Stitch (Experiment 626)</button>
-            <button class="experiment-choice" onclick="solveQuiz()">B. Gaby (Experiment 627)</button>
-            <button class="experiment-choice" onclick="solveQuiz()">C. Definitely B.</button>
+        
+        <div class="note" style="background: #e1f5fe; border-color: #03a9f4;">
+            "Found you." — Stitch
         </div>
-        <button class="aloha-btn" id="quiz-btn" style="display:none;" onclick="next(3)">Access Secret File →</button>
+
+        <button class="btn-next" onclick="next(4)">The Final Destination 💖</button>
     </div>
 
-    <div class="section" id="sec3">
-        <span class="hibiscus">🌺</span>
-        <div style="background: #fffdf0; padding: 15px; border: 1px solid #ddd; line-height: 1.8;">
-            Hi Gaby,<br><br>
-            I made this glitchy little site because just like Stitch, 
-            I'm a little bit of a disaster, but I'm <strong>your</strong> disaster. <br><br>
-            You are the Lilo to my Stitch. Thank you for being in my galaxy. 
-        </div>
-        <button class="aloha-btn" onclick="next(4)">FINAL PROTOCOL →</button>
-    </div>
-
-    <div class="section" id="sec4" style="text-align:center;">
-        <h1 style="color: var(--hibiscus-pink);">MAU NYONG?</h1>
-        <p>Will you be my Valentine?</p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
-            <button id="yesBtn" onclick="finish()">YES!</button>
-            <button id="noBtn" onmouseover="glitchRun()">NO</button>
+    <div class="section" id="sec4" style="text-align: center; --r: 0deg;">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHNoZGN6dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/X8uMu868798C0A9f5x/giphy.gif" style="width:150px;">
+        <h1 style="font-size: 2em; margin-top: 0;">Mau Nyong?</h1>
+        <p>Will you be my Valentine and my Ohana forever?</p>
+        
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <button id="yesBtn" onclick="celebrate()">YES!</button>
+            <button id="noBtn" onmouseover="moveNo()">NO</button>
         </div>
     </div>
 
-    <div id="ohana-screen">
-        <h1 style="font-size: 3em;">OHANA! ❤️</h1>
-        <p>I LOVE YOU GABY!</p>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N2ZTFwZTN0Ym8wdzB5dnJmY3E1bm5oemE5b3o1ZzZ6bjMxbXF3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/37zNwwNF9IKWqJ6WrK/giphy.gif" width="280">
-        <button class="aloha-btn" style="width: auto; padding: 10px 40px;" onclick="location.reload()">Reset System</button>
+    <div id="celebration">
+        <h1 style="color: var(--stitch-blue); font-size: 3em;">HAYEEEEE! ❤️</h1>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z2eHh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dzR4eXh0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/T3V7v5C3N2E9fXFpXp/giphy.gif" width="250">
+        <h2 style="color: var(--angel-pink);">I Love You So Much, Gaby!</h2>
+        <p>Prepare for cuddles and chaos!</p>
     </div>
 
     <script>
-        const bar = document.getElementById('progress-bar');
-        const title = document.getElementById('main-title');
-
         function next(num) {
+            // Hide all
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            // Show new
             document.getElementById('sec'+num).classList.add('active');
             
-            // Update progress with glitch text
-            let progress = num * 25;
-            bar.style.width = progress + '%';
+            // Move surfing stitch
+            const progress = (num - 1) * 33.33;
+            document.getElementById('progress-fill').style.width = (num * 25) + '%';
+            document.getElementById('surf-stitch').style.left = (num * 22) + '%';
             
-            if(num === 2) bar.innerText = "CHECKING_CUTE_LEVELS...";
-            if(num === 3) bar.innerText = "EMOTIONAL_FILES_OPEN";
-            if(num === 4) {
-                bar.innerText = "CRITICAL_DECISION_REQUIRED";
-                bar.style.background = "#ff576c";
-            }
+            window.scrollTo(0,0);
         }
 
-        function solveQuiz() {
-            document.getElementById('quiz-options').innerHTML = "<b>RESULT: CUTE_OVERLOAD.DATA</b>";
-            document.getElementById('quiz-btn').style.display = 'block';
-            title.innerText = "GABY.EXE DETECTED";
-        }
-
-        // Glitchy Escape Logic
-        let growth = 20;
-        function glitchRun() {
-            growth += 50;
-            const yes = document.getElementById('yesBtn');
+        // The No button prank
+        function moveNo() {
             const no = document.getElementById('noBtn');
-
-            // Make the YES button grow till it eats the screen
-            yes.style.fontSize = growth + 'px';
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            no.style.position = 'fixed';
+            no.style.left = x + 'px';
+            no.style.top = y + 'px';
             
-            // Add a glitch effect to the title
-            title.innerText = "ERROR: CLICK YES";
-            title.style.color = "red";
-
-            if(growth > 250) {
-                yes.style.position = 'fixed';
-                yes.style.inset = '0';
-                yes.style.zIndex = '9998';
-                yes.innerHTML = "YES! ❤️ (Accept Connection)";
-            }
+            // Make YES grow
+            const yes = document.getElementById('yesBtn');
+            const currSize = parseInt(window.getComputedStyle(yes).fontSize);
+            yes.style.fontSize = (currSize + 10) + 'px';
+            yes.style.padding = (currSize + 5) + 'px';
         }
 
-        function finish() {
-            document.getElementById('ohana-screen').style.display = 'flex';
+        function celebrate() {
+            document.getElementById('celebration').style.display = 'flex';
         }
     </script>
 </body>
