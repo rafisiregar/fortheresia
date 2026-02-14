@@ -3,274 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOR GABY ❤️</title>
+    <title>ALOHA GABY 🌺</title>
     <style>
-        /* Retro Web 1.0 Aesthetic */
-        body {
-            background-color: #ffdae9;
-            background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
-            background-size: 20px 20px;
-            font-family: "Courier New", Courier, monospace;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+        :root {
+            --stitch-blue: #4facfe;
+            --stitch-dark: #003366;
+            --hibiscus-pink: #ff576c;
+            --glitch-green: #00ff41;
         }
 
-        /* Progress Bar */
-        #progress-container {
-            width: 100%;
-            max-width: 400px;
-            height: 20px;
-            background: white;
-            border: 2px solid #333;
-            margin-bottom: 20px;
-            position: sticky;
-            top: 10px;
-            z-index: 100;
+        body {
+            background-color: #e0f7fa;
+            /* Retro tropical pattern background */
+            background-image: radial-gradient(var(--stitch-blue) 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            font-family: "Courier New", Courier, monospace;
+            color: var(--stitch-dark);
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
         }
+
+        /* Glitchy Progress Bar */
+        #system-status {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border: 3px solid var(--stitch-dark);
+            margin: 20px auto;
+            position: relative;
+            height: 30px;
+            box-shadow: 4px 4px 0px var(--hibiscus-pink);
+        }
+
         #progress-bar {
-            width: 25%;
+            width: 20%;
             height: 100%;
-            background: #ff1493;
-            transition: width 0.5s ease;
+            background: var(--stitch-blue);
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glitch Animation for Progress Bar */
+        #progress-bar::after {
+            content: "SYSTEM_ERROR";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: var(--glitch-green);
+            color: black;
+            opacity: 0;
+            animation: glitch-flash 3s infinite;
+        }
+
+        @keyframes glitch-flash {
+            0%, 90% { opacity: 0; }
+            92% { opacity: 1; transform: skewX(20deg); }
+            95% { opacity: 0; }
         }
 
         header {
-            border: 4px double #ff1493;
-            background: white;
-            padding: 10px 40px;
-            margin-bottom: 30px;
-            box-shadow: 5px 5px 0px #ff1493;
             text-align: center;
+            background: white;
+            border: 3px solid var(--stitch-dark);
+            padding: 15px;
+            transform: rotate(-1deg);
+            box-shadow: 8px 8px 0px var(--stitch-blue);
+            margin-bottom: 50px;
         }
 
         .section {
-            display: none; /* Hidden by default */
+            display: none;
             background: white;
-            border: 2px solid #333;
+            border: 3px solid var(--stitch-dark);
             padding: 30px;
-            margin-bottom: 40px;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
+            width: 90%;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            position: relative;
+            box-shadow: 12px 12px 0px var(--stitch-dark);
+            animation: slideIn 0.4s ease-out;
         }
 
         .section.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        h2 {
-            background: #ff1493;
-            color: white;
-            padding: 5px 15px;
-            display: inline-block;
-            margin-top: -50px;
-            border: 2px solid #333;
+        /* Stitch Theme Elements */
+        .hibiscus {
+            position: absolute;
+            font-size: 40px;
+            top: -25px;
+            right: -20px;
+            filter: drop-shadow(2px 2px 0px var(--stitch-dark));
         }
 
-        /* Section 1: Moments */
-        .moments-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        .photo-card {
+        /* Moments Photo Grid */
+        .photo-frame {
+            border: 10px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             background: #fff;
-            padding: 10px;
-            border: 1px solid #ddd;
+            margin-bottom: 20px;
             transform: rotate(-2deg);
-            width: 100%;
-            max-width: 280px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
         }
-        .photo-card img { width: 100%; height: auto; border-bottom: 1px solid #eee; }
+        .photo-frame img { width: 100%; display: block; filter: sepia(0.3); }
 
-        /* Buttons */
-        .nav-btn {
-            margin-top: 25px;
-            padding: 12px 25px;
-            background: #333;
+        /* Navigation Buttons */
+        .aloha-btn {
+            background: var(--hibiscus-pink);
             color: white;
-            border: none;
-            cursor: pointer;
+            border: 3px solid var(--stitch-dark);
+            padding: 15px;
+            width: 100%;
             font-family: inherit;
             font-weight: bold;
-            display: block;
-            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            transition: 0.2s;
         }
-        .nav-btn:hover { background: #ff1493; }
+        .aloha-btn:hover {
+            background: var(--stitch-blue);
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px var(--stitch-dark);
+        }
 
-        /* Quiz */
-        .quiz-option {
+        /* Quiz Choices */
+        .experiment-choice {
             display: block;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background: #f0f0f0;
-            border: 2px solid #333;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid var(--stitch-dark);
+            background: #e0f7fa;
             cursor: pointer;
             font-family: inherit;
         }
 
-        /* Letter */
-        .letter {
-            line-height: 1.6;
-            white-space: pre-wrap;
-            background: #fffdf0;
-            padding: 20px;
-            border-left: 5px solid #ff1493;
-            font-size: 0.95em;
-        }
-
-        /* The Finale */
+        /* The BIG "Yes" logic */
         #yesBtn {
-            background: #00ff00;
-            border: 3px solid #333;
-            padding: 15px 30px;
-            font-weight: bold;
+            background: #00ff41;
+            font-size: 20px;
+            padding: 20px 40px;
+            border: 4px solid var(--stitch-dark);
             cursor: pointer;
-            transition: 0.1s;
         }
         #noBtn {
-            background: #ff4444;
+            background: #ff576c;
+            padding: 20px 40px;
+            border: 4px solid var(--stitch-dark);
             color: white;
-            border: 3px solid #333;
-            padding: 15px 30px;
-            cursor: not-allowed;
         }
 
-        #celebration {
+        /* Celebration Screen */
+        #ohana-screen {
             display: none;
             position: fixed;
             inset: 0;
-            background: white;
-            z-index: 2000;
+            background: var(--stitch-blue);
+            z-index: 9999;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            color: white;
+            text-shadow: 3px 3px 0px var(--stitch-dark);
         }
     </style>
 </head>
 <body>
 
-    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="system-status">
+        <div id="progress-bar">EXPERIMENT_626_LOADING</div>
+    </div>
 
     <header>
-        <h1>HELLO GABY! ❤️</h1>
-        <p style="font-size: 12px;">Website optimized for Internet Explorer 6.0</p>
+        <h1 id="main-title">STITCH.EXE ACTIVATED</h1>
+        <p>User: Gaby | Status: Most Wanted ❤️</p>
     </header>
 
     <div class="section active" id="sec1">
-        <h2>01. Our Memories</h2>
-        <div class="moments-grid">
-            <div class="photo-card">
-                <img src="images/photo1.jpg" alt="Moment 1">
-                <p style="font-style: italic; margin-top: 10px;">Look how cute we were here! ✨</p>
-            </div>
-            <div class="photo-card" style="transform: rotate(3deg);">
-                <img src="images/photo2.jpg" alt="Moment 2">
-                <p style="font-style: italic; margin-top: 10px;">One of my fav days ever. ❤️</p>
-            </div>
+        <span class="hibiscus">🌺</span>
+        <div class="photo-frame">
+            <img src="images/us1.jpg" alt="Moment 1">
         </div>
-        <button class="nav-btn" onclick="goTo(2)">Unlock the Vault →</button>
+        <p style="text-align: center; border: 1px dashed #333; padding: 10px;">
+            "Ohana means family. Family means nobody gets left behind or forgotten." 
+            <br><br>
+            <strong>Especially you.</strong>
+        </p>
+        <button class="aloha-btn" onclick="next(2)">Initiate Memory Scan →</button>
     </div>
 
     <div class="section" id="sec2">
-        <h2>02. The Love Test</h2>
-        <p id="quiz-question">Siapa orang paling cantik di dunia menurut aku?</p>
+        <span class="hibiscus">🌸</span>
+        <p style="font-weight: bold; margin-bottom: 20px;">SYSTEM CHECK: Who is the cutest experiment in this galaxy?</p>
         <div id="quiz-options">
-            <button class="quiz-option" onclick="nextQuiz()">A. Gaby</button>
-            <button class="quiz-option" onclick="nextQuiz()">B. Gabriella</button>
-            <button class="quiz-option" onclick="nextQuiz()">C. My Favorite Person (Gaby)</button>
+            <button class="experiment-choice" onclick="solveQuiz()">A. Stitch (Experiment 626)</button>
+            <button class="experiment-choice" onclick="solveQuiz()">B. Gaby (Experiment 627)</button>
+            <button class="experiment-choice" onclick="solveQuiz()">C. Definitely B.</button>
         </div>
-        <button class="nav-btn" id="quiz-next" style="display:none;" onclick="goTo(3)">Read my Letter →</button>
+        <button class="aloha-btn" id="quiz-btn" style="display:none;" onclick="next(3)">Access Secret File →</button>
     </div>
 
     <div class="section" id="sec3">
-        <h2>03. For Your Eyes Only</h2>
-        <div class="letter">
-Dear Gaby,
-
-I wanted to make something special for you because 
-you deserve more than just a regular message. 
-
-Being with you is like finding the last missing 
-piece of a puzzle. It just fits perfectly.
-
-I hope you liked this little trip down memory lane.
-I have one last question for you...
+        <span class="hibiscus">🌺</span>
+        <div style="background: #fffdf0; padding: 15px; border: 1px solid #ddd; line-height: 1.8;">
+            Hi Gaby,<br><br>
+            I made this glitchy little site because just like Stitch, 
+            I'm a little bit of a disaster, but I'm <strong>your</strong> disaster. <br><br>
+            You are the Lilo to my Stitch. Thank you for being in my galaxy. 
         </div>
-        <button class="nav-btn" onclick="goTo(4)">The Big Question →</button>
+        <button class="aloha-btn" onclick="next(4)">FINAL PROTOCOL →</button>
     </div>
 
-    <div class="section" id="sec4" style="text-align: center;">
-        <h1 style="font-size: 2.5em; margin-bottom: 10px;">MAU NYONG?</h1>
-        <p>(Will you be my Valentine?)</p>
-        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-            <button id="yesBtn" onclick="showCelebration()">YES!</button>
-            <button id="noBtn" onmouseover="growYes()">NO</button>
+    <div class="section" id="sec4" style="text-align:center;">
+        <h1 style="color: var(--hibiscus-pink);">MAU NYONG?</h1>
+        <p>Will you be my Valentine?</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;">
+            <button id="yesBtn" onclick="finish()">YES!</button>
+            <button id="noBtn" onmouseover="glitchRun()">NO</button>
         </div>
     </div>
 
-    <div id="celebration">
-        <h1 style="font-size: 3em; color: #ff1493;">YAY! HAPPY VALENTINE! ❤️</h1>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJpZzR6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6Z3R6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiCiZC/giphy.gif" width="300">
-        <p style="margin-top: 20px;">I'll see you soon! I love you!</p>
+    <div id="ohana-screen">
+        <h1 style="font-size: 3em;">OHANA! ❤️</h1>
+        <p>I LOVE YOU GABY!</p>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N2ZTFwZTN0Ym8wdzB5dnJmY3E1bm5oemE5b3o1ZzZ6bjMxbXF3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/37zNwwNF9IKWqJ6WrK/giphy.gif" width="280">
+        <button class="aloha-btn" style="width: auto; padding: 10px 40px;" onclick="location.reload()">Reset System</button>
     </div>
 
     <script>
-        function goTo(secNum) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            // Show target
-            document.getElementById('sec' + secNum).classList.add('active');
-            // Update progress bar
-            document.getElementById('progress-bar').style.width = (secNum * 25) + '%';
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
+        const bar = document.getElementById('progress-bar');
+        const title = document.getElementById('main-title');
 
-        let quizStep = 0;
-        function nextQuiz() {
-            const q = document.getElementById('quiz-question');
-            if (quizStep === 0) {
-                q.innerText = "Seberapa sayang aku sama kamu?";
-                quizStep++;
-            } else {
-                q.innerHTML = "<b>SKOR: 100/100!</b><br>Kamu memang juara di hati aku.";
-                document.getElementById('quiz-options').style.display = 'none';
-                document.getElementById('quiz-next').style.display = 'block';
+        function next(num) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('sec'+num).classList.add('active');
+            
+            // Update progress with glitch text
+            let progress = num * 25;
+            bar.style.width = progress + '%';
+            
+            if(num === 2) bar.innerText = "CHECKING_CUTE_LEVELS...";
+            if(num === 3) bar.innerText = "EMOTIONAL_FILES_OPEN";
+            if(num === 4) {
+                bar.innerText = "CRITICAL_DECISION_REQUIRED";
+                bar.style.background = "#ff576c";
             }
         }
 
-        let yesSize = 18;
-        function growYes() {
-            yesSize += 45; 
+        function solveQuiz() {
+            document.getElementById('quiz-options').innerHTML = "<b>RESULT: CUTE_OVERLOAD.DATA</b>";
+            document.getElementById('quiz-btn').style.display = 'block';
+            title.innerText = "GABY.EXE DETECTED";
+        }
+
+        // Glitchy Escape Logic
+        let growth = 20;
+        function glitchRun() {
+            growth += 50;
             const yes = document.getElementById('yesBtn');
-            yes.style.fontSize = yesSize + 'px';
+            const no = document.getElementById('noBtn');
+
+            // Make the YES button grow till it eats the screen
+            yes.style.fontSize = growth + 'px';
             
-            if (yesSize > 250) {
+            // Add a glitch effect to the title
+            title.innerText = "ERROR: CLICK YES";
+            title.style.color = "red";
+
+            if(growth > 250) {
                 yes.style.position = 'fixed';
                 yes.style.inset = '0';
-                yes.style.width = '100vw';
-                yes.style.height = '100vh';
-                yes.style.zIndex = '1000';
-                yes.innerHTML = "YES! <br><span style='font-size:14px'>(Click me now, there is no escape!)</span>";
+                yes.style.zIndex = '9998';
+                yes.innerHTML = "YES! ❤️ (Accept Connection)";
             }
         }
 
-        function showCelebration() {
-            document.getElementById('celebration').style.display = 'flex';
+        function finish() {
+            document.getElementById('ohana-screen').style.display = 'flex';
         }
     </script>
 </body>
