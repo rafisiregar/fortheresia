@@ -121,15 +121,14 @@
       100%{ transform:translateX(20%); }
     }
 
-    /* Steps are now NON-CLICKABLE (indicator only) */
+    /* indicator only */
     .steps{
       margin-top:10px;
       display:grid;
       grid-template-columns:repeat(4, 1fr);
       gap:10px;
-      pointer-events:none; /* prevents click/tap */
+      pointer-events:none;
     }
-
     .step{
       user-select:none;
       padding:10px 10px;
@@ -143,11 +142,13 @@
       font-weight:bold;
       font-size:12px;
       text-align:center;
+      opacity:0.65;
     }
     .step.active{
       border-color:rgba(30,136,229,0.95);
       background:rgba(30,136,229,0.12);
       box-shadow:0 8px 18px rgba(30,136,229,0.25);
+      opacity:1;
     }
     .dot{
       width:10px;
@@ -183,11 +184,7 @@
       color:var(--stitch2);
       text-shadow:1px 1px 0 rgba(255,255,255,0.9);
     }
-    .sub{
-      font-size:12px;
-      margin:0;
-      opacity:0.85;
-    }
+    .sub{ font-size:12px; margin:0; opacity:0.85; }
 
     .section{
       display:none;
@@ -200,7 +197,6 @@
       animation:fadeIn .5s ease;
     }
     .section.active{ display:block; }
-
     @keyframes fadeIn{
       from{ opacity:0; transform:translateY(10px); }
       to{ opacity:1; transform:translateY(0); }
@@ -322,9 +318,31 @@
       border:3px solid rgba(21,50,77,0.55);
       padding:14px 26px;
       border-radius:16px;
-      cursor:pointer; /* now clickable to trigger grow on mobile */
+      cursor:pointer;
       box-shadow:0 12px 22px rgba(255,75,75,0.18);
       font-weight:bold;
+    }
+
+    /* Dynamic note under the buttons */
+    #noNote{
+      margin-top:14px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.75);
+      border:2px solid rgba(13,71,161,0.22);
+      box-shadow:0 10px 18px rgba(13,71,161,0.08);
+      display:inline-block;
+      max-width:560px;
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    .note-pop{
+      animation: pop .16s ease;
+    }
+    @keyframes pop{
+      from{ transform:scale(0.98); opacity:0.7; }
+      to{ transform:scale(1); opacity:1; }
     }
 
     #celebration{
@@ -360,7 +378,7 @@
 
   <div id="progress-wrap" class="stitch-border">
     <div class="progress-head">
-      <div class="badge"><span class="pulse"></span><span id="statusText">Unlocked: Memories</span></div>
+      <div class="badge"><span class="pulse"></span><span id="statusText">Hmm… what is this? 👀</span></div>
       <div class="tiny" id="percentText">25%</div>
     </div>
 
@@ -368,12 +386,11 @@
       <div id="fill"></div>
     </div>
 
-    <!-- indicator only, no click -->
     <div class="steps" aria-label="Progress indicator">
-      <div class="step active" data-step="1"><span class="dot"></span><span>Memories</span></div>
-      <div class="step" data-step="2"><span class="dot"></span><span>Love Test</span></div>
-      <div class="step" data-step="3"><span class="dot"></span><span>Letter</span></div>
-      <div class="step" data-step="4"><span class="dot"></span><span>The Question</span></div>
+      <div class="step active" data-step="1"><span class="dot"></span><span>Now</span></div>
+      <div class="step" data-step="2"><span class="dot"></span><span>???</span></div>
+      <div class="step" data-step="3"><span class="dot"></span><span>???</span></div>
+      <div class="step" data-step="4"><span class="dot"></span><span>???</span></div>
     </div>
   </div>
 
@@ -434,12 +451,10 @@ I have one last question for you...
 
     <div class="final-row">
       <button id="yesBtn" onclick="showCelebration()">YES!</button>
-
-      <!-- CHANGED: click/tap triggers grow -->
       <button id="noBtn" onclick="growYes()">NO</button>
     </div>
 
-    <p class="tiny" style="margin-top:14px;">Hint: try pressing “NO” 😇</p>
+    <div id="noNote" class="tiny">Try pressing “NO” 😇</div>
   </div>
 
   <div id="celebration">
@@ -457,12 +472,40 @@ I have one last question for you...
   </div>
 
   <script>
-    const labels = {
+    // Only reveal section names AFTER user reaches them
+    const revealed = { 1: true, 2: false, 3: false, 4: false };
+
+    const placeholderPhrases = [
+      "Hmm… what is this? 👀",
+      "Secret progress loading… 🤫",
+      "Tiny mystery detected… 🧩",
+      "Ok wait… what did you unlock? ✨",
+      "No spoilers yet 😇"
+    ];
+
+    const realLabels = {
       1: "Unlocked: Memories",
       2: "Unlocked: Love Test",
       3: "Unlocked: Letter",
       4: "Unlocked: The Question"
     };
+
+    function labelFor(secNum){
+      if (revealed[secNum]) return realLabels[secNum];
+      // pick a stable-ish placeholder based on secNum + time-ish
+      const i = (secNum + 2) % placeholderPhrases.length;
+      return placeholderPhrases[i];
+    }
+
+    function setStepsText(){
+      const steps = document.querySelectorAll(".step");
+      steps.forEach((el) => {
+        const n = Number(el.dataset.step);
+        const text = el.querySelector("span:last-child");
+        if (n === 1) text.textContent = "Now";
+        else text.textContent = revealed[n] ? "✓" : "???";
+      });
+    }
 
     function setActiveStep(secNum){
       document.querySelectorAll(".step").forEach(btn => {
@@ -472,16 +515,23 @@ I have one last question for you...
       const pct = secNum * 25;
       document.getElementById("fill").style.width = pct + "%";
       document.getElementById("percentText").innerText = pct + "%";
-      document.getElementById("statusText").innerText = labels[secNum] || "Unlocked";
+      document.getElementById("statusText").innerText = labelFor(secNum);
+
+      setStepsText();
     }
 
     function goTo(secNum){
+      // reveal current section when user reaches it
+      revealed[secNum] = true;
+
       document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       document.getElementById("sec" + secNum).classList.add("active");
+
       setActiveStep(secNum);
       window.scrollTo(0, 0);
     }
 
+    // Quiz
     let quizStep = 0;
     function nextQuiz(){
       const q = document.getElementById("quiz-question");
@@ -495,15 +545,46 @@ I have one last question for you...
       }
     }
 
-    // CHANGED: growth happens on click/tap of NO
+    // NO click behavior + dynamic notes
+    const noNotes = [
+      "NO? Cute. Try again 😌💙",
+      "Stitch says: suspicious choice… 😗",
+      "That button is lying to you 😇",
+      "Okay… but the YES button looks happier 🤭",
+      "You pressed NO again? I’m blushing 😳",
+      "Plot twist: NO makes YES stronger 💪",
+      "Stop bullying the NO button 😭",
+      "I’ll pretend I didn’t see that… one more time? 👀",
+      "You’re testing me huh 😤💗",
+      "Final warning: YES is about to take over 😈"
+    ];
+
+    let noCount = 0;
     let yesSize = 18;
+
+    function setNoNote(text){
+      const note = document.getElementById("noNote");
+      note.classList.remove("note-pop");
+      // force reflow so animation can replay
+      void note.offsetWidth;
+      note.textContent = text;
+      note.classList.add("note-pop");
+    }
+
     function growYes(){
+      noCount++;
+
+      // change note every click
+      const noteText = noNotes[Math.min(noCount - 1, noNotes.length - 1)];
+      setNoNote(noteText);
+
+      // grow YES
       yesSize += 42;
       const yes = document.getElementById("yesBtn");
       yes.style.fontSize = yesSize + "px";
 
-      // tiny bounce feedback
-      yes.style.transform = "scale(1.04)";
+      // bounce feedback
+      yes.style.transform = "scale(1.05)";
       setTimeout(() => { yes.style.transform = "scale(1)"; }, 120);
 
       if (yesSize > 240) {
@@ -513,6 +594,9 @@ I have one last question for you...
         yes.style.height = "100vh";
         yes.style.zIndex = "1500";
         yes.innerHTML = "YES! <br><span style='font-size:14px'>(Click me now 😈)</span>";
+
+        // note updates too
+        setNoNote("Too late… YES is everywhere now 😈💗");
       }
     }
 
@@ -520,6 +604,8 @@ I have one last question for you...
       document.getElementById("celebration").style.display = "flex";
     }
 
+    // initial sync (only section 1 is revealed)
+    setStepsText();
     setActiveStep(1);
   </script>
 
